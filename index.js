@@ -41,7 +41,6 @@ function bindCellMouseMove ($cell) {
 
 function handleCellsMouseMove (event) {
     const $cell = event.target;
-    console.log($cell)
     $cell.checked = isMouseDown;
 }
 
