@@ -112,6 +112,15 @@ def awoo():
     dcfurs.set_row(5, 0x00009)
     dcfurs.set_row(6, 0x00000)
 
+def my_own_penis():
+    dcfurs.set_row(0, 0x0f03c)
+    dcfurs.set_row(1, 0x00000)
+    dcfurs.set_row(2, 0x00000)
+    dcfurs.set_row(3, 0x00000)
+    dcfurs.set_row(4, 0x00000)
+    dcfurs.set_row(5, 0x00000)
+    dcfurs.set_row(6, 0x00000)
+
 ## Render an emote from an ascii string
 def render(str):
     ## Check for special cases
