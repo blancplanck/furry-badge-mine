@@ -156,8 +156,8 @@ function formatKeyframe (id) {
     const formattedMatrix = getMatrix(id);
 
     return {
-        duration,
-        format: formattedMatrix
+        interval: duration,
+        frame: formattedMatrix
     }
 }
 
