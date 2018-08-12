@@ -6,9 +6,15 @@ import emote
 import micropython
 import settings
 import ubinascii
+import random
 
 print("Booting...")
 import animations
+
+# global override variable to override the interval of a json keyframe animation
+interval_override = None
+# global variable counter of start time for deltaz
+time_start = None
 
 ## Handle events from the BLE module.
 def blerx(args):
@@ -68,6 +74,10 @@ if settings.bootanim:
 anim = available[selected]()
 while True:
     anim.draw()
+    if interval_override:
+        anim.interval = interval_override
+    print("interval_override")
+    print(interval_override)
     ival = anim.interval
     while ival > 0:
         ## Change animation on button press, or emote if both pressed.
@@ -92,8 +102,18 @@ while True:
         elif badge.boop.event():
             if settings.debug:
                 micropython.mem_info()
-            emote.boop()
+            emote.random()
             ival = 1000
+
+            # extra boop
+            if not time_start:
+                time_start = pyb.micros()
+                interval_override = None
+            else:
+                time_end = pyb.micros()
+                interval_override = float(time_end - time_start)
+                time_start = pyb.micros()
+            print(interval_override)
 
         ## Pause for as long as long as both buttons are pressed.
         if badge.right.value() and badge.left.value():
@@ -104,7 +124,7 @@ while True:
             pyb.delay(50)
             ival -= 50
         else:
-            pyb.delay(ival)
+            pyb.udelay(ival)
             ival = 0
         
         ## Attempt to suspend the badge between animations
