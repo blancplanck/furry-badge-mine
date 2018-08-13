@@ -76,9 +76,8 @@ while True:
     anim.draw()
     if interval_override:
         anim.interval = interval_override
-    print("interval_override")
-    print(interval_override)
     ival = anim.interval
+
     while ival > 0:
         ## Change animation on button press, or emote if both pressed.
         if badge.right.event():
@@ -102,29 +101,29 @@ while True:
         elif badge.boop.event():
             if settings.debug:
                 micropython.mem_info()
-            emote.random()
-            ival = 1000
+            # emote.random()
+            ival = 0
 
             # extra boop
             if not time_start:
-                time_start = pyb.micros()
+                time_start = pyb.millis()
                 interval_override = None
             else:
-                time_end = pyb.micros()
-                interval_override = float(time_end - time_start)
-                time_start = pyb.micros()
+                time_end = pyb.millis()
+                interval_override = time_end - time_start
+                time_start = pyb.millis()
             print(interval_override)
 
         ## Pause for as long as long as both buttons are pressed.
         if badge.right.value() and badge.left.value():
-            ival += 50
+            ival += 100
         
         ## Run the animation timing
         if ival > 50:
             pyb.delay(50)
             ival -= 50
         else:
-            pyb.udelay(ival)
+            pyb.delay(ival)
             ival = 0
         
         ## Attempt to suspend the badge between animations
